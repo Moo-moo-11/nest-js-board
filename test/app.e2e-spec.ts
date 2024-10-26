@@ -15,10 +15,37 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
+  describe('AppController', () => {
+    it('/ (GET)', () => {
+      return request(app.getHttpServer())
+        .get('/')
+        .expect(200)
+        .expect('Hello World!');
+    });
+
+    it('/name?name=hahaha (GET)', () => {
+      return request(app.getHttpServer())
+        .get('/name?name=hahaha')
+        .expect(200)
+        .expect('hahaha Hello');
+    });
+
+    it('로그인', () => {
+      return request(app.getHttpServer())
+        .post('/login')
+        .send({
+          username: '123456780',
+          password: '12345678',
+        })
+        .expect(201);
+    });
   });
+
+  describe('BoardController', () => {
+    it('게시글 가져오기', () => {
+      return request(app.getHttpServer()).get('/board').expect(200);
+    });
+  });
+
+  describe('UserController', () => {});
 });
